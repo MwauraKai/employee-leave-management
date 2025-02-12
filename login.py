@@ -22,7 +22,6 @@ def authenticate_user(email, password):
     else:
         return None, None, None, None, None
 
-# Function to handle login button click
 def login():
     email = email_entry.get()
     password = password_entry.get()
@@ -32,20 +31,24 @@ def login():
     if user_id:
         # Login successful
         messagebox.showinfo("Login Successful", f"Welcome {first_name} {last_name} ({role})")
+
         if remember_me_var.get():
             with open("remember_me.txt", "w") as f:
                 f.write(email)
         else:
             with open("remember_me.txt", "w") as f:
                 f.write("")
-        root.destroy()  # Close the login window
+
+        root.withdraw()  # Instead of destroy(), hide login window
+
         if role == 'Employee':
-            employee_dashboard(user_id, f"{first_name} {last_name}")  # Redirect to employee dashboard
+            employee_dashboard(user_id, f"{first_name} {last_name}")  
         elif role == 'HR':
-            choose_dashboard(user_id, first_name, last_name, role, email, department)  # Prompt HR to choose dashboard
+            choose_dashboard(user_id, first_name, last_name, role, email, department)
     else:
         # Invalid credentials
         messagebox.showerror("Login Failed", "Invalid email or password.")
+
 
 # Function to prompt HR to choose dashboard
 def choose_dashboard(user_id, first_name, last_name, role, email, department):
